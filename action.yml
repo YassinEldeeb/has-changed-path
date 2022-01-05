@@ -1,4 +1,4 @@
-name: "Has Changed Path"
+name: "Has Changed"
 description: "Detects whether a path or a combination of paths were changed in the previous commit"
 inputs:
   paths: # one or more paths
