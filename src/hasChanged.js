@@ -1,4 +1,5 @@
 const exec = require('@actions/exec')
+const { execSync } = require('child_process')
 
 async function main(pathsToSearch = '') {
   throwsForInvalidPaths(pathsToSearch)
@@ -20,10 +21,16 @@ async function hasChanged(pathsToSearch) {
   const paths = pathsToSearch.split(' ')
 
   //  --quiet: exits with 1 if there were differences (https://git-scm.com/docs/git-diff)
+   
+  const lastCommitParent = execSync('git rev-parse HEAD^@').toString()
+        .trim()
+        .split('\n')
+        .at(-1)
+  
   const exitCode = await exec.exec('git', [
     'diff',
     '--quiet',
-    'HEAD~1',
+    lastCommitParent,
     'HEAD',
     '--',
     ...paths,
