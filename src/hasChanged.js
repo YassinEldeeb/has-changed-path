@@ -27,20 +27,17 @@ async function hasChanged(pathsToSearch) {
         .split('\n')
         .at(-1)
   
-  const exitCode = await exec.exec('git', [
+  const result = await exec.exec('git', [
     'diff',
-    '--quiet',
     lastCommitParent,
     'HEAD',
     '--',
     ...paths,
   ], {
-    ignoreReturnCode: true,
-    silent: false,
     cwd: getCWD()
   })
 
-  const pathsChanged = exitCode === 1
+  const pathsChanged = result.length > 0
 
   return pathsChanged
 }
